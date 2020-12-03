@@ -10,15 +10,30 @@ class MatchController extends Controller
 {
     public function index()
     {
-        $matches = Match::join('teams_in_matches', 'matches.id', '=', 'teams_in_matches.match_id')
-        ->join('teams_in_competitions', 'teams_in_matches.teams_in_competition_id', '=', 'teams_in_competitions.id')
-        ->join('teams', 'teams_in_competitions.team_id', '=', 'teams.id')
-        ->select('date','round','flashscore_id', 'name', 'goals')
-        ->where('teams_in_competitions.competition_id', '=', 1)
-        ->whereDate('matches.date', '<', today()->toDateString())
-        ->orderBy('matches.date', 'desc')
-        ->orderBy('matches.id', 'desc')
-        ->get();
-        return $matches;
+        $matches =  Match::whereDate('date', '<', today()->toDateString())->get()->map(function ($match) {
+            $competition = $match->teamsInMatches[0]->teamsInCompetition->competition;
+            return [
+                'id' => $match->id,
+                'competition' =>
+                    [
+                        'id' => $competition->id,
+                        'name' => $competition->name,
+                        'country' => $competition->competitionsType->country,
+                        'competitionsTypeId' => $competition->competitions_type_id,
+                        'type' => $competition->competitionsType->name
+                    ],
+                'round' => $match->round,
+                'date' => date('Y-m-d H:i', strtotime($match->date)),
+                'teams' => $match->teamsInMatches->map(function ($team) {
+                    return [
+                        'id' => $team->id,
+                        'goals' => $team->goals,
+                        'name' => $team->teamsInCompetition->team->name
+                    ];
+                })
+            ];
+        });
+
+        return ['matches' => $matches];
     }
 }
