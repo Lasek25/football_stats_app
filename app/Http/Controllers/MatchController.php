@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+
 use Illuminate\Http\Request;
 use App\Models\Match;
 use Carbon\Carbon;
@@ -34,6 +36,6 @@ class MatchController extends Controller
             ];
         });
 
-        return ['matches' => $matches];
+        return Inertia::render('Matches', ['matches' => $matches]);
     }
 }
