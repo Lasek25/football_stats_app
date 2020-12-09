@@ -10,14 +10,17 @@ type Query {
 
     matches: [Match] @all
     match(id: ID @eq): Match @find
+
+    competitions: [Competition] @all
+    competition(id: ID @eq): Competition @find
     
-    matchesByDate(date: DateRange @whereBetween): [Match!]! @all
+    matchesQuery(competition: Int, days: Int): [Match]
 }
 
-input DateRange {
-    from: Date!
-    to: Date!
-}
+# input DateRange {
+#     from: Date!
+#     to: Date!
+# }
 
 type User {
     id: ID!

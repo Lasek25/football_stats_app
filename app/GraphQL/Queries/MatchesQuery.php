@@ -1,6 +1,7 @@
 <?php
 
 namespace App\GraphQL\Queries;
+use App\Models\Match;
 
 class MatchesQuery
 {
@@ -10,6 +11,22 @@ class MatchesQuery
      */
     public function __invoke($_, array $args)
     {
-        // TODO implement the resolver
+        if($args['days'] < 0)
+            $lastMatches = Match::whereBetween('date', [today()->addDays($args['days'])->toDateString(), today()->toDateString()])->get();
+        else
+            $lastMatches = Match::whereBetween('date', [today()->toDateString(), today()->addDays($args['days']+1)->toDateString()])->get();
+        
+        if($args['competition'] != 0){
+            $matches = collect();
+            foreach ($lastMatches as $match) {
+                if ($match->teamsInMatches[0]->teamsInCompetition->competition->id == $args['competition']) {
+                    $matches->push($match);
+                }
+            }
+        }
+        else
+            $matches = $lastMatches;            
+        
+        return $matches;
     }
 }
