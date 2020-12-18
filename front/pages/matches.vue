@@ -1,24 +1,37 @@
 <template>
   <div>
-    <h1>Matches</h1>
+    <h1>{{ daysRange > 0 ? 'Terminarz' : 'Wyniki' }}</h1>
     <div>
-      <v-btn @click="competitionId = 0">Wszystkie rozgrywki</v-btn>
-      <v-btn @click="competitionId = 1">Premier League</v-btn>
-      <v-btn @click="competitionId = 2">Ligue 1</v-btn>
+      <v-btn
+        v-for="com in competitions"
+        :key="com.id"
+        @click="competitionId = com.id"
+      >
+        {{ com.name }}
+      </v-btn>
     </div>
     <div>
       <v-btn @click="daysRange = -7">Wyniki</v-btn>
       <v-btn @click="daysRange = 7">Terminarz</v-btn>
     </div>
     <ul>
+      <!-- {{
+        competition.name
+      }} -->
+      <!-- {{
+        matchesQuery[0].teamsInMatches[0].teamsInCompetition.competition.name
+      }} -->
       <li v-for="match in matchesQuery" :key="match.id">
-        {{ match.teamsInMatches[0].teamsInCompetition.competition.name }}
         {{ match.round }}
         {{ match.date }}
         {{ match.teamsInMatches[0].teamsInCompetition.team.name }}
-        {{ match.teamsInMatches[0].goals }}
-        :
-        {{ match.teamsInMatches[1].goals }}
+        {{
+          match.teamsInMatches[0].updatedAt === null
+            ? '-'
+            : match.teamsInMatches[0].goals +
+              ' : ' +
+              match.teamsInMatches[1].goals
+        }}
         {{ match.teamsInMatches[1].teamsInCompetition.team.name }}
       </li>
     </ul>
@@ -45,6 +58,7 @@ export default {
             teamsInMatches {
               id
               goals
+              updatedAt
               teamsInCompetition {
                 id
                 competition {
@@ -67,6 +81,37 @@ export default {
         }
       },
     },
+    competitions: {
+      query: gql`
+        query getCompetitions {
+          competitions {
+            id
+            name
+            competitionsType {
+              country
+            }
+          }
+        }
+      `,
+    },
+    // competition: {
+    //   query: gql`
+    //     query getCompetition($id: ID) {
+    //       competition(id: $id) {
+    //         id
+    //         name
+    //         competitionsType {
+    //           country
+    //         }
+    //       }
+    //     }
+    //   `,
+    //   variables() {
+    //     return {
+    //       id: this.competitionId,
+    //     }
+    //   },
+    // },
   },
 }
 </script>

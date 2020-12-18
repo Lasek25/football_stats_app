@@ -52,6 +52,7 @@ type TeamsInMatch {
     # matchId: Match! @rename(attribute: "match_id") @belongsTo 
     match: Match! @belongsTo
     teamsInCompetition: TeamsInCompetition! @belongsTo
+    updatedAt: DateTime @rename(attribute: "updated_at")
 }
 
 type TeamsInCompetition {
