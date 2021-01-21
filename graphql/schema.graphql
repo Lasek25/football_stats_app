@@ -15,6 +15,9 @@ type Query {
 
     competitions: [Competition] @all
     competition(id: ID @eq): Competition @find
+
+    competitionsTypes: [CompetitionsType] @all
+    # competitionType(id: ID @eq): CompetitionsType @find
     
     matchesQuery(competition: Int, days: Int): [Match]
 }

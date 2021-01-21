@@ -47,7 +47,7 @@
       <v-btn icon @click.stop="fixed = !fixed">
         <v-icon>mdi-minus</v-icon>
       </v-btn> -->
-      <NuxtLink to="/" class="text-decoration-none white--text">
+      <NuxtLink to="/" class="text-decoration-none">
         <v-toolbar-title v-text="title" />
       </NuxtLink>
       <!-- <v-icon class="ml-5 mr-5">{{ 'mdi-soccer' }}</v-icon> -->
