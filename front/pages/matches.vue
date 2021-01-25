@@ -53,55 +53,79 @@
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-center">Kolejka</th>
                   <th class="text-center">Data</th>
+                  <th class="text-center">Kolejka</th>
                   <th class="text-center">Mecz</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="match in matchesQuery" :key="match.id">
-                  <td class="text-center">{{ match.round }}</td>
-                  <td class="text-center">{{ match.date }}</td>
                   <td class="text-center">
-                    <span
-                      :class="
-                        match.teamsInMatches[0].goals >
-                          match.teamsInMatches[1].goals && 'font-weight-black'
-                      "
-                    >
-                      <!-- <span
-                      :class="
-                        isTeamWin(
-                          match.teamsInMatches[0].goals,
-                          match.teamsInMatches[1].goals
-                        )
-                      "
-                    > -->
-                      {{ match.teamsInMatches[0].teamsInCompetition.team.name }}
-                    </span>
-                    {{
-                      match.teamsInMatches[0].updatedAt === null
-                        ? '-'
-                        : match.teamsInMatches[0].goals +
-                          ' : ' +
-                          match.teamsInMatches[1].goals
-                    }}
-                    <span
-                      :class="
-                        match.teamsInMatches[1].goals >
-                          match.teamsInMatches[0].goals && 'font-weight-black'
-                      "
-                    >
-                      <!-- <span
-                      :class="
-                        isTeamWin(
-                          match.teamsInMatches[1].goals,
-                          match.teamsInMatches[0].goals
-                        )
-                      "
-                    > -->
-                      {{ match.teamsInMatches[1].teamsInCompetition.team.name }}
-                    </span>
+                    {{ match.date }}
+                  </td>
+                  <td class="text-center">
+                    {{ match.round }}
+                  </td>
+                  <td class="text-center">
+                    <div class="justify-center align-center d-flex">
+                      <img
+                        :src="`${match.teamsInMatches[0].teamsInCompetition.competition.name}/${match.teamsInMatches[0].teamsInCompetition.team.name}.png`"
+                        width="20px"
+                        height="20px"
+                        class="mr-2"
+                      />
+                      <span
+                        :class="
+                          match.teamsInMatches[0].goals >
+                            match.teamsInMatches[1].goals && 'font-weight-black'
+                        "
+                      >
+                        <!-- <span
+                        :class="
+                          isTeamWin(
+                            match.teamsInMatches[0].goals,
+                            match.teamsInMatches[1].goals
+                          )
+                        "
+                      > -->
+                        {{
+                          match.teamsInMatches[0].teamsInCompetition.team.name
+                        }}
+                      </span>
+                      <span class="font-weight-bold ml-2 mr-2">
+                        {{
+                          match.teamsInMatches[0].updatedAt === null
+                            ? '-'
+                            : match.teamsInMatches[0].goals +
+                              ' : ' +
+                              match.teamsInMatches[1].goals
+                        }}
+                      </span>
+                      <span
+                        :class="
+                          match.teamsInMatches[1].goals >
+                            match.teamsInMatches[0].goals && 'font-weight-black'
+                        "
+                      >
+                        <!-- <span
+                        :class="
+                          isTeamWin(
+                            match.teamsInMatches[1].goals,
+                            match.teamsInMatches[0].goals
+                          )
+                        "
+                      > -->
+                        {{
+                          match.teamsInMatches[1].teamsInCompetition.team.name
+                        }}
+                      </span>
+                      <img
+                        :src="`${match.teamsInMatches[1].teamsInCompetition.competition.name}/${match.teamsInMatches[1].teamsInCompetition.team.name}.png`"
+                        width="20px"
+                        height="20px"
+                        class="ml-2"
+                      />
+                    </div>
                   </td>
                 </tr>
               </tbody>
