@@ -59,6 +59,7 @@ export default {
         dark: {
           primary: colors.teal.darken2,
           //primary: colors.blue.darken2,
+          cardBg: colors.grey.darken4,
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
@@ -69,6 +70,7 @@ export default {
         },
         light: {
           primary: colors.teal.darken2,
+          cardBg: colors.grey.lighten3,
           secondary: colors.amber.darken3,
           anchor: colors.shades.black,
         },

@@ -12,9 +12,9 @@ class MatchesQuery
     public function __invoke($_, array $args)
     {
         if($args['days'] < 0)
-            $lastMatches = Match::whereBetween('date', [today()->addDays($args['days'])->toDateString(), today()->toDateString()])->get();
+            $lastMatches = Match::whereBetween('date', [today()->addDays($args['days'])->toDateString(), today()->toDateString()])->orderBy('date', $args['orderBy'])->get();
         else
-            $lastMatches = Match::whereBetween('date', [today()->toDateString(), today()->addDays($args['days']+1)->toDateString()])->get();
+            $lastMatches = Match::whereBetween('date', [today()->toDateString(), today()->addDays($args['days']+1)->toDateString()])->orderBy('date', $args['orderBy'])->get();
         
         if($args['competition'] != 0){
             $matches = collect();

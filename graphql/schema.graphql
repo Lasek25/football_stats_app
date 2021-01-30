@@ -19,7 +19,12 @@ type Query {
     competitionsTypes: [CompetitionsType] @all
     # competitionType(id: ID @eq): CompetitionsType @find
     
-    matchesQuery(competition: Int, days: Int): [Match]
+    matchesQuery(competition: Int, days: Int, orderBy: SortOrder): [Match]
+}
+
+enum SortOrder {
+    ASC @enum(value: "asc")
+    DESC @enum(value: "desc")
 }
 
 # input DateRange {
