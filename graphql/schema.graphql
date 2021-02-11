@@ -20,12 +20,18 @@ type Query {
     # competitionType(id: ID @eq): CompetitionsType @find
     
     matchesQuery(competition: Int, days: Int, orderBy: SortOrder): [Match]
+    avgQuery(competition: Int, matchesCount: Int): [TeamsInMatch]
 }
 
 enum SortOrder {
     ASC @enum(value: "asc")
     DESC @enum(value: "desc")
 }
+
+# enum AvgType {
+#     GOALS @enum(value: "goals")
+#     CORNERS @enum(value: "corners")
+# }
 
 # input DateRange {
 #     from: Date!
