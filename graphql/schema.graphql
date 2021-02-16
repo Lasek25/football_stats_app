@@ -20,7 +20,7 @@ type Query {
     # competitionType(id: ID @eq): CompetitionsType @find
     
     matchesQuery(competition: Int, days: Int, orderBy: SortOrder): [Match]
-    avgQuery(competition: Int, matchesCount: Int): [TeamsInMatch]
+    avgQuery(competition: Int, matchesQuantity: Int): [AvgResult]
 }
 
 enum SortOrder {
@@ -37,6 +37,18 @@ enum SortOrder {
 #     from: Date!
 #     to: Date!
 # }
+
+type AvgResult {
+    teamsInCompetition: TeamsInCompetition!
+    avgGoals: Float!
+    goals: [Int!]
+    corners: [Int!]
+    yellowCards: [Int!]
+    redCards: [Int!]
+    fouls: [Int!]
+    offsides: [Int!]
+    shotsOnGoal: [Int!]
+}
 
 type User {
     id: ID!
