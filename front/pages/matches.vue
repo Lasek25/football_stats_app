@@ -315,26 +315,6 @@ export default {
         }
       `,
     },
-    // competitionType: {
-    //   query: gql`
-    //     query getCompetitions($compType: ID) {
-    //       competitionType(id: $compType) {
-    //         id
-    //         name
-    //         country
-    //         competitions {
-    //           id
-    //           name
-    //         }
-    //       }
-    //     }
-    //   `,
-    //   variables() {
-    //     return {
-    //       compType: this.competitionsTypeId,
-    //     }
-    //   },
-    // },
   },
 }
 </script>

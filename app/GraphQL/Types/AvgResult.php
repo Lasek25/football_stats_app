@@ -13,6 +13,12 @@ class AvgResult extends ObjectType
             "name" => "AvgResult",
             "fields" => [
                 "avgGoals" => Type::float(),
+                "avgCorners" => Type::float(),
+                "avgYellowCards" => Type::float(),
+                "avgRedCards" => Type::float(),
+                "avgFouls" => Type::float(),
+                "avgOffsides" => Type::float(),
+                "avgShotsOnGoal" => Type::float(),
                 "goals" => Type::listOf(Type::int()),
                 "corners" => Type::listOf(Type::int()),
                 "yellowCards" => Type::listOf(Type::int()),

@@ -41,12 +41,19 @@ class AvgQuery
             : $allTeamsInCompetition = $allTeamsInCompetition->get();
 
         foreach($allTeamsInCompetition as $team) {
-            $filteredMatches = $team->teamsInMatches->filter(function ($match) {
-                return $match->updated_at != '';
+            $filteredMatches = $team->teamsInMatches->filter(function ($tIMatch) {
+                return $tIMatch->updated_at != '';
             })->sortByDesc('match.date');
             $args['matchesQuantity'] != 0 
                 ? $filteredMatches = $filteredMatches->take($args['matchesQuantity'])
                 : '';
+            $matchesQuantity = count($filteredMatches);
+            
+            if ($args['isMatchStats']) {
+                $filteredMatches = TeamsInMatch::whereIn('match_id', $filteredMatches->map(function ($tIMatch) {
+                    return $tIMatch->match_id;
+                }))->get();
+            }
 
             $tmpTeam = new AvgResult();
             $tmpTeam->teamsInCompetition = $team;
@@ -67,7 +74,14 @@ class AvgQuery
                 $offsides->push($match->offsides);
                 $shotsOnGoal->push($match->shots_on_goal);
             }
-            $tmpTeam->avgGoals = round($goals->avg(), 2);
+            // $tmpTeam->avgGoals = round($goals->avg(), 2);
+            $tmpTeam->avgGoals = round($goals->sum()/$matchesQuantity, 2);
+            $tmpTeam->avgCorners = round($corners->sum()/$matchesQuantity, 2);
+            $tmpTeam->avgYellowCards = round($yellowCards->sum()/$matchesQuantity, 2);
+            $tmpTeam->avgRedCards = round($redCards->sum()/$matchesQuantity, 2);
+            $tmpTeam->avgFouls = round($fouls->sum()/$matchesQuantity, 2);
+            $tmpTeam->avgOffsides = round($offsides->sum()/$matchesQuantity, 2);
+            $tmpTeam->avgShotsOnGoal = round($shotsOnGoal->sum()/$matchesQuantity, 2);
             $tmpTeam->goals = $goals;
             $tmpTeam->corners = $corners;
             $tmpTeam->yellowCards = $yellowCards;
@@ -90,7 +104,7 @@ class AvgQuery
         //         });
         //     }));
         // }
-        return $results->sortByDesc('avgGoals');
+        return $results;
         // if($args['matchesQuantity'] == 0)
         //     return $allTeamsInCompetition;
         // else {

@@ -14,7 +14,7 @@ export default {
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
-  css: [],
+  css: ['@/assets/main.scss'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [],
@@ -67,12 +67,18 @@ export default {
           error: colors.deepOrange.accent4,
           success: colors.green.accent3,
           anchor: colors.shades.white,
+          card1: colors.teal.darken4,
+          tabBg: colors.default,
         },
         light: {
-          primary: colors.teal.darken2,
-          cardBg: colors.grey.lighten3,
-          secondary: colors.amber.darken3,
+          primary: colors.teal.darken1,
+          // cardBg: colors.grey.lighten3,
+          cardBg: colors.grey.lighten2,
+          secondary: colors.amber.darken2,
           anchor: colors.shades.black,
+          card1: colors.teal.darken4,
+          accent: colors.grey.darken2,
+          tabBg: colors.grey,
         },
       },
     },

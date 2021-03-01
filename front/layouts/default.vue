@@ -148,7 +148,7 @@ export default {
           to: '/matches',
         },
         {
-          icon: 'mdi-soccer-field',
+          icon: 'mdi-strategy',
           title: 'Rozgrywki',
           to: '/competitions',
         },
