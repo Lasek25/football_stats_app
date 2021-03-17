@@ -19,13 +19,6 @@ class AvgResult extends ObjectType
                 "avgFouls" => Type::float(),
                 "avgOffsides" => Type::float(),
                 "avgShotsOnGoal" => Type::float(),
-                "goals" => Type::listOf(Type::int()),
-                "corners" => Type::listOf(Type::int()),
-                "yellowCards" => Type::listOf(Type::int()),
-                "redCards" => Type::listOf(Type::int()),
-                "fouls" => Type::listOf(Type::int()),
-                "offsides" => Type::listOf(Type::int()),
-                "shotsOnGoal" => Type::listOf(Type::int()),
             ],
         ];
         parent::__construct($config);

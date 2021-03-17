@@ -2,8 +2,6 @@
 
 namespace App\GraphQL\Queries;
 
-// use App\Models\TeamsInCompetition;
-
 use App\Models\TeamsInCompetition;
 use App\Models\TeamsInMatch;
 use App\GraphQL\Types\AvgResult;
@@ -52,7 +50,7 @@ class AvgQuery
             if ($args['isMatchStats']) {
                 $filteredMatches = TeamsInMatch::whereIn('match_id', $filteredMatches->map(function ($tIMatch) {
                     return $tIMatch->match_id;
-                }))->get();
+                }))->get()->sortByDesc('match.date');
             }
 
             $tmpTeam = new AvgResult();
@@ -82,13 +80,6 @@ class AvgQuery
             $tmpTeam->avgFouls = round($fouls->sum()/$matchesQuantity, 2);
             $tmpTeam->avgOffsides = round($offsides->sum()/$matchesQuantity, 2);
             $tmpTeam->avgShotsOnGoal = round($shotsOnGoal->sum()/$matchesQuantity, 2);
-            $tmpTeam->goals = $goals;
-            $tmpTeam->corners = $corners;
-            $tmpTeam->yellowCards = $yellowCards;
-            $tmpTeam->redCards = $redCards;
-            $tmpTeam->fouls = $fouls;
-            $tmpTeam->offsides = $offsides;
-            $tmpTeam->shotsOnGoal = $shotsOnGoal;
             $results->push($tmpTeam);
         }
         // $all->push($allTeamsInCompetition->map(function ($team) {

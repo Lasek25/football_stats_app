@@ -21,6 +21,7 @@ type Query {
     
     matchesQuery(competition: Int, days: Int, orderBy: SortOrder): [Match]
     avgQuery(competition: Int, isMatchStats: Boolean, matchesQuantity: Int): [AvgResult]
+    resultsQuery(competition: Int, matchesQuantity: Int): [Results]
 }
 
 enum SortOrder {
@@ -47,7 +48,14 @@ type AvgResult {
     avgFouls: Float!
     avgOffsides: Float!
     avgShotsOnGoal: Float!
-    goals: [Int!]
+}
+
+type Results {
+    teamsInCompetition: TeamsInCompetition!
+    # pointsSum: Int!
+    points: [Int!]
+    goalsScored: [Int!]
+    goalsAgainst: [Int!]
     corners: [Int!]
     yellowCards: [Int!]
     redCards: [Int!]
