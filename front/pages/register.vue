@@ -55,7 +55,7 @@
           rules="required|confirmed:password"
         >
           <v-text-field
-            v-model="confirmPassword"
+            v-model="password_confirmation"
             :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show2 ? 'text' : 'password'"
             :error-messages="errors"
@@ -76,7 +76,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   components: {
@@ -90,24 +90,28 @@ export default {
       name: '',
       email: '',
       password: '',
-      confirmPassword: '',
+      password_confirmation: '',
     }
   },
   methods: {
     async submit() {
-      await axios.post('register', {
-        name: this.name,
-        email: this.email,
-        password: this.password,
-      })
-    },
-    clear() {
-      this.name = ''
-      this.phoneNumber = ''
-      this.email = ''
-      this.select = null
-      this.checkbox = null
-      this.$refs.observer.reset()
+      // const formData = new FormData()
+      // formData.append('name', this.name)
+      // formData.append('email', this.email)
+      // formData.append('password', this.password)
+      // axios.post('register', formData, {
+      //   headers: { 'Content-Type': 'multipart/form-data' },
+      // })
+      await this.$axios
+        .$post('register', {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          password_confirmation: this.password_confirmation,
+        })
+        .then(() => {
+          this.$router.push('/')
+        })
     },
   },
 }

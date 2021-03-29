@@ -12,6 +12,10 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
+  
+  publicRuntimeConfig: {
+    apiURL: process.env.API_URL,
+  },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: ['@/assets/main.scss'],
@@ -48,7 +52,10 @@ export default {
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    proxy: true,
+    baseURL: process.env.API_URL,
+  },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
