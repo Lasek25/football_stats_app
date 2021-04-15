@@ -60,21 +60,53 @@
       <v-spacer></v-spacer>
       <v-switch
         v-model="darkMode"
-        class="mt-6 mr-3 hidden-xs-only"
+        class="mt-6 mr-1 hidden-xs-only"
         inset
         prepend-icon="mdi-moon-waning-crescent"
         @change="toogleTheme"
       />
-      <!-- <v-btn @click="toogleTheme">zmien</v-btn> -->
-      <v-btn class="mr-3 hidden-md-and-down rounded-lg" color="primary">
-        Zaloguj się
-      </v-btn>
-      <v-btn class="hidden-md-and-down rounded-lg" color="secondary">
-        Zarejestruj się
-      </v-btn>
-      <v-btn class="hidden-lg-and-up" fab small>
-        <v-icon>{{ 'mdi-account-circle' }}</v-icon>
-      </v-btn>
+      <span v-if="!me" class="d-inline-flex">
+        <v-btn
+          class="mr-3 hidden-md-and-down rounded-lg"
+          color="primary"
+          to="/login"
+          exact
+        >
+          Zaloguj się
+        </v-btn>
+        <v-btn
+          class="hidden-md-and-down rounded-lg"
+          color="secondary"
+          to="/register"
+          exact
+        >
+          Zarejestruj się
+        </v-btn>
+        <v-btn class="hidden-lg-and-up" fab small to="/login" exact>
+          <v-icon>{{ 'mdi-account-circle' }}</v-icon>
+        </v-btn>
+      </span>
+      <span v-else>
+        <v-menu bottom min-width="200px" rounded offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn fab small v-on="on">
+              <v-icon>{{ 'mdi-account-circle' }}</v-icon>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-list-item-content class="justify-center">
+              <div class="mx-auto text-center">
+                <v-icon class="mb-2">{{ 'mdi-account' }}</v-icon>
+                <h3>{{ me.name }}</h3>
+                <v-divider class="my-2"></v-divider>
+                <v-btn depressed text to="/profile" exact>Moje konto</v-btn>
+                <v-divider class="my-2"></v-divider>
+                <v-btn depressed text @click="onLogout">Wyloguj się</v-btn>
+              </div>
+            </v-list-item-content>
+          </v-card>
+        </v-menu>
+      </span>
       <!-- <v-spacer />
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-menu</v-icon>
@@ -124,11 +156,21 @@
     </v-navigation-drawer> -->
     <v-footer :absolute="!fixed" app>
       <span>Football Stats App &copy; {{ new Date().getFullYear() }}</span>
+      <v-spacer></v-spacer>
+      <div>
+        Icons made by
+        <a href="https://www.freepik.com" title="Freepik">Freepik</a>
+        from
+        <a href="https://www.flaticon.com/" title="Flaticon">
+          www.flaticon.com
+        </a>
+      </div>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+import gql from 'graphql-tag'
 export default {
   data() {
     return {
@@ -136,6 +178,8 @@ export default {
       clipped: false,
       drawer: false,
       fixed: false,
+      me: null,
+      // info: '',
       items: [
         // {
         //   icon: 'mdi-home',
@@ -172,6 +216,35 @@ export default {
     toogleTheme() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
     },
+    async onLogout() {
+      await this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation logoutUser {
+              logout {
+                status
+                message
+              }
+            }
+          `,
+        })
+        .then(() => {
+          // this.info = data.data.logout.message
+          this.$apolloHelpers.onLogout()
+          this.$router.push('/')
+        })
+    },
+  },
+  apollo: {
+    me: gql`
+      query {
+        me {
+          id
+          name
+          email
+        }
+      }
+    `,
   },
 }
 </script>

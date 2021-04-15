@@ -49,7 +49,7 @@
         <v-col class="col-2 d-flex justify-center font-weight-black">
           BRAMKI
         </v-col>
-        <v-col class="d-flex justify-center col-2 font-weight-black">
+        <v-col class="col-2 d-flex justify-center font-weight-black">
           LOGO
         </v-col>
       </v-row>
