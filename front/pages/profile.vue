@@ -1,13 +1,5 @@
 <template>
   <v-container class="cardBg" col-md-6>
-    <v-alert
-      :value="alert"
-      type="success"
-      transition="slide-x-reverse-transition"
-      dismissible
-    >
-      {{ alertText }}
-    </v-alert>
     <h2>MOJE KONTO</h2>
     <validation-observer ref="observer" v-slot="{ invalid }">
       <v-form class="mt-3 mb-3" @submit.prevent="updateUser">
@@ -118,8 +110,6 @@ export default {
     return {
       meTmp: null,
       validationErrors: '',
-      alert: false,
-      alertText: '',
       show1: false,
       show2: false,
       show3: false,
@@ -164,8 +154,11 @@ export default {
           },
         })
         .then((data) => {
-          this.alertText = data.data.updatePassword.message
-          this.alert = true
+          this.$store.commit(
+            'setSnackbarText',
+            data.data.updatePassword.message
+          )
+          this.$store.commit('setSnackbar', true)
           this.reset()
           this.setShow()
         })
@@ -193,8 +186,8 @@ export default {
           },
         })
         .then((data) => {
-          this.alertText = data.data.updateUser.message
-          this.alert = true
+          this.$store.commit('setSnackbarText', data.data.updateUser.message)
+          this.$store.commit('setSnackbar', true)
         })
     },
   },

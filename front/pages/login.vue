@@ -116,8 +116,13 @@ export default {
         })
         .then((data) => {
           console.log(data)
-          this.$router.push('/')
+          this.$router.push('/matches')
           this.$apolloHelpers.onLogin(data.data.login.access_token)
+          this.$store.commit('setSnackbar', true)
+          this.$store.commit(
+            'setSnackbarText',
+            'Logowanie przebiegło poprawnie'
+          )
         })
         .catch((error) => {
           const { graphQLErrors } = error

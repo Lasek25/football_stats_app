@@ -47,9 +47,9 @@
       <v-btn icon @click.stop="fixed = !fixed">
         <v-icon>mdi-minus</v-icon>
       </v-btn> -->
-      <NuxtLink to="/" class="text-decoration-none">
-        <v-toolbar-title v-text="title" />
-      </NuxtLink>
+      <!-- <NuxtLink to="/" class="text-decoration-none"> -->
+      <v-toolbar-title v-text="title" class="text-decoration-none pl-0" />
+      <!-- </NuxtLink> -->
       <!-- <v-icon class="ml-5 mr-5">{{ 'mdi-soccer' }}</v-icon> -->
       <v-toolbar-items class="ml-5 mr-5 hidden-sm-and-down">
         <v-btn v-for="(item, i) in items" :key="i" :to="item.to" router exact>
@@ -141,6 +141,7 @@
     </v-app-bar> -->
     <v-main>
       <v-container>
+        <Snackbar />
         <nuxt />
       </v-container>
     </v-main>
@@ -171,7 +172,9 @@
 
 <script>
 import gql from 'graphql-tag'
+import Snackbar from '../components/Snackbar.vue'
 export default {
+  components: { Snackbar },
   data() {
     return {
       darkMode: this.$vuetify.theme.dark,
@@ -201,11 +204,11 @@ export default {
           title: 'Najlepsi',
           to: '/best',
         },
-        {
-          icon: 'mdi-star',
-          title: 'Ulubione',
-          to: '/favourite',
-        },
+        // {
+        //   icon: 'mdi-star',
+        //   title: 'Ulubione',
+        //   to: '/favourite',
+        // },
       ],
       // right: true,
       // rightDrawer: false,
@@ -231,7 +234,9 @@ export default {
         .then(() => {
           // this.info = data.data.logout.message
           this.$apolloHelpers.onLogout()
-          this.$router.push('/')
+          this.$router.push('/matches')
+          this.$store.commit('setSnackbar', true)
+          this.$store.commit('setSnackbarText', 'Wylogowano poprawnie')
         })
     },
   },

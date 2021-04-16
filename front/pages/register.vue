@@ -83,7 +83,6 @@
 <script>
 import gql from 'graphql-tag'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
-// import axios from 'axios'
 
 export default {
   components: {
@@ -104,25 +103,6 @@ export default {
     }
   },
   methods: {
-    // async submit() {
-    //   // const formData = new FormData()
-    //   // formData.append('name', this.name)
-    //   // formData.append('email', this.email)
-    //   // formData.append('password', this.password)
-    //   // axios.post('register', formData, {
-    //   //   headers: { 'Content-Type': 'multipart/form-data' },
-    //   // })
-    //   await this.$axios
-    //     .$post('register', {
-    //       name: this.name,
-    //       email: this.email,
-    //       password: this.password,
-    //       password_confirmation: this.password_confirmation,
-    //     })
-    //     .then(() => {
-    //       this.$router.push('/')
-    //     })
-    // },
     async submit() {
       await this.$apollo
         .mutate({
@@ -144,13 +124,18 @@ export default {
           },
         })
         .then(() => {
-          this.$router.push('/')
+          this.$router.push('/login')
+          this.$store.commit('setSnackbar', true)
+          this.$store.commit(
+            'setSnackbarText',
+            'Rejestracja przebiegła poprawnie'
+          )
         })
         .catch((error) => {
           const { graphQLErrors } = error
           if (graphQLErrors[0].extensions.category === 'validation') {
             this.validationErrors = graphQLErrors[0].extensions.validation
-          }
+          } else console.log(error)
         })
     },
   },
