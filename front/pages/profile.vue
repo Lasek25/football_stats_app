@@ -1,5 +1,5 @@
 <template>
-  <v-container class="cardBg" col-md-6>
+  <v-container class="cardBg mb-12 mb-sm-0" col-md-6>
     <h2>MOJE KONTO</h2>
     <validation-observer ref="observer" v-slot="{ invalid }">
       <v-form class="mt-3 mb-3" @submit.prevent="updateUser">

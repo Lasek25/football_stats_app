@@ -2,7 +2,7 @@
   <div>
     <h1>Wyniki/Terminarz</h1>
     <competitions-menu :is-matches-page="true" />
-    <v-container class="cardBg">
+    <v-container class="cardBg mb-12 mb-sm-0">
       <matches-tab :days-list="daysList" />
     </v-container>
   </div>

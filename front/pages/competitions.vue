@@ -2,7 +2,7 @@
   <div>
     <h1>Rozgrywki</h1>
     <competitions-menu :is-matches-page="false" />
-    <v-container class="cardBg">
+    <v-container class="cardBg mb-12 mb-sm-0">
       <v-divider></v-divider>
       <v-row class="mt-3 mt-sm-0">
         <v-col class="d-inline-flex" cols="12" sm="8" lg="9">

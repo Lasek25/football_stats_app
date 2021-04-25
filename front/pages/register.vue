@@ -1,5 +1,5 @@
 <template>
-  <v-container class="cardBg" col-md-6>
+  <v-container class="cardBg mb-12 mb-sm-0" col-md-6>
     <h2>REJESTRACJA</h2>
     <validation-observer ref="observer" v-slot="{ invalid }">
       <form class="mt-3 mb-2" @submit.prevent="submit">

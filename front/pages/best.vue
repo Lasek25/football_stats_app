@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Najlepsi w swojej kategorii</h1>
-    <v-container class="cardBg mt-3">
+    <v-container class="cardBg mt-3 mb-12 mb-sm-0">
       <best-tab :team-count="10" />
     </v-container>
   </div>
