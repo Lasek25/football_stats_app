@@ -20,8 +20,8 @@ return [
     | support the password grant
     |
     */
-    // 'client_secret' => env('PASSPORT_CLIENT_SECRET', null),
-    'client_secret' => env('PASSPORT_PRIVATE_KEY', null),
+    'client_secret' => env('PASSPORT_CLIENT_SECRET', null),
+    // 'client_secret' => env('PASSPORT_PRIVATE_KEY', null),
     /*
     |--------------------------------------------------------------------------
     | GraphQL schema
