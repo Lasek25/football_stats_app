@@ -15,6 +15,7 @@ class AvgQuery
     public function __invoke($_, array $args)
     {
         $results = collect();
+        $matchesId = collect();
         // month (after ending the season and before starting the new one) necessary for the correct year selection
         $month = 7;
         if (now()->month > $month) {
@@ -31,12 +32,16 @@ class AvgQuery
         //     ->where('teams_in_competitions.season','=',$year)
         //     ->orderBy('teams_in_matches.teams_in_competition_id','asc')
         //     ->latest('matches.date');
-        $allTeamsInCompetition = TeamsInCompetition::where('teams_in_competitions.season','=',$year)
+        $allTeamsInCompetition = TeamsInCompetition::with('teamsInMatches.match')->where('teams_in_competitions.season','=',$year)
             ->orderBy('teams_in_competitions.id','asc');
 
         $args['competition'] != 0 
             ? $allTeamsInCompetition = $allTeamsInCompetition->where('teams_in_competitions.competition_id','=',$args['competition'])->get()
             : $allTeamsInCompetition = $allTeamsInCompetition->get();
+
+        if ($args['isMatchStats']) {
+            $allTeamsInMatches = TeamsInMatch::with(['match'])->where('updated_at', '!=', '')->get();
+        }
 
         foreach($allTeamsInCompetition as $team) {
             $filteredMatches = $team->teamsInMatches->filter(function ($tIMatch) {
@@ -47,10 +52,16 @@ class AvgQuery
                 : '';
             $matchesQuantity = count($filteredMatches);
             
+            // if ($args['isMatchStats']) {
+            //     $filteredMatches = TeamsInMatch::with('match')->whereIn('match_id', $filteredMatches->map(function ($tIMatch) {
+            //         return $tIMatch->match_id;
+            //     }))->get()->sortByDesc('match.date');
+            // }
+
             if ($args['isMatchStats']) {
-                $filteredMatches = TeamsInMatch::whereIn('match_id', $filteredMatches->map(function ($tIMatch) {
+                $filteredMatches = $allTeamsInMatches->whereIn('match_id', $filteredMatches->map(function ($tIMatch) {
                     return $tIMatch->match_id;
-                }))->get()->sortByDesc('match.date');
+                }))->sortByDesc('match.date');
             }
 
             $tmpTeam = new AvgResult();

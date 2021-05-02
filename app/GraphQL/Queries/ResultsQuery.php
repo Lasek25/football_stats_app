@@ -23,12 +23,14 @@ class ResultsQuery
         else {
             $year = now()->addYears(-1)->year . '/' . now()->year;
         }
-        $allTeamsInCompetition = TeamsInCompetition::where('teams_in_competitions.season','=',$year)
+        $allTeamsInCompetition = TeamsInCompetition::with('teamsInMatches.match')->where('teams_in_competitions.season','=',$year)
             ->orderBy('teams_in_competitions.id','asc');
 
         $args['competition'] != 0 
             ? $allTeamsInCompetition = $allTeamsInCompetition->where('teams_in_competitions.competition_id','=',$args['competition'])->get()
             : $allTeamsInCompetition = $allTeamsInCompetition->get();
+
+        $allTeamsInMatches = TeamsInMatch::with('match')->where('updated_at', '!=', '')->get();
 
         foreach($allTeamsInCompetition as $team) {
             $filteredMatches = $team->teamsInMatches->filter(function ($tIMatch) {
@@ -38,9 +40,9 @@ class ResultsQuery
                 ? $filteredMatches = $filteredMatches->take($args['matchesQuantity'])
                 : '';
             
-            $filteredMatchesPt = TeamsInMatch::whereIn('match_id', $filteredMatches->map(function ($tIMatch) {
+            $filteredMatchesPt = $allTeamsInMatches->whereIn('match_id', $filteredMatches->map(function ($tIMatch) {
                 return $tIMatch->match_id;
-            }))->get()->sortByDesc('match.date');
+            }))->sortByDesc('match.date');
             $filteredMatchesPt = $filteredMatchesPt->values()->all();
 
             // if ($args['isMatchStats']) {

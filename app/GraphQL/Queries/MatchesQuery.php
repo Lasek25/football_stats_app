@@ -19,7 +19,7 @@ class MatchesQuery
         if($args['competition'] != 0){
             $matches = collect();
             foreach ($lastMatches as $match) {
-                if ($match->teamsInMatches[0]->teamsInCompetition->competition->id == $args['competition']) {
+                if ($match->teamsInMatches[0]->teamsInCompetition->competition_id == $args['competition']) {
                     $matches->push($match);
                 }
             }
