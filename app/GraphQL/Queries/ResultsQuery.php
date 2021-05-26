@@ -18,12 +18,13 @@ class ResultsQuery
         // month (after ending the season and before starting the new one) necessary for the correct year selection
         $month = 7;
         if (now()->month > $month) {
-            $year = now()->year . '/' . now()->addYear()->year;
+            $year1 = now()->year . '/' . now()->addYear()->year;
         }
         else {
-            $year = now()->addYears(-1)->year . '/' . now()->year;
+            $year1 = now()->addYears(-1)->year . '/' . now()->year;
         }
-        $allTeamsInCompetition = TeamsInCompetition::with('teamsInMatches.match')->where('teams_in_competitions.season','=',$year)
+        $year2 = now()->year;
+        $allTeamsInCompetition = TeamsInCompetition::with('teamsInMatches.match')->whereIn('teams_in_competitions.season', [$year1, $year2])
             ->orderBy('teams_in_competitions.id','asc');
 
         $args['competition'] != 0 
