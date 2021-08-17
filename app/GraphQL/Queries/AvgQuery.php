@@ -83,15 +83,17 @@ class AvgQuery
                 $offsides->push($match->offsides);
                 $shotsOnGoal->push($match->shots_on_goal);
             }
-            // $tmpTeam->avgGoals = round($goals->avg(), 2);
-            $tmpTeam->avgGoals = round($goals->sum()/$matchesQuantity, 2);
-            $tmpTeam->avgCorners = round($corners->sum()/$matchesQuantity, 2);
-            $tmpTeam->avgYellowCards = round($yellowCards->sum()/$matchesQuantity, 2);
-            $tmpTeam->avgRedCards = round($redCards->sum()/$matchesQuantity, 2);
-            $tmpTeam->avgFouls = round($fouls->sum()/$matchesQuantity, 2);
-            $tmpTeam->avgOffsides = round($offsides->sum()/$matchesQuantity, 2);
-            $tmpTeam->avgShotsOnGoal = round($shotsOnGoal->sum()/$matchesQuantity, 2);
-            $results->push($tmpTeam);
+            if(count($filteredMatches) > 0) {
+                // $tmpTeam->avgGoals = round($goals->avg(), 2);
+                $tmpTeam->avgGoals = round($goals->sum()/$matchesQuantity, 2);
+                $tmpTeam->avgCorners = round($corners->sum()/$matchesQuantity, 2);
+                $tmpTeam->avgYellowCards = round($yellowCards->sum()/$matchesQuantity, 2);
+                $tmpTeam->avgRedCards = round($redCards->sum()/$matchesQuantity, 2);
+                $tmpTeam->avgFouls = round($fouls->sum()/$matchesQuantity, 2);
+                $tmpTeam->avgOffsides = round($offsides->sum()/$matchesQuantity, 2);
+                $tmpTeam->avgShotsOnGoal = round($shotsOnGoal->sum()/$matchesQuantity, 2);
+                $results->push($tmpTeam);
+            }   
         }
         // $all->push($allTeamsInCompetition->map(function ($team) {
         //     return $team->teamsInMatches->filter(function ($match) {
